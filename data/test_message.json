@@ -1,0 +1,88 @@
+{
+  "end_device_ids": {
+    "device_id": "eui-a840412281826e4d",
+    "application_ids": {
+      "application_id": "odba-test-app-2"
+    },
+    "dev_eui": "A840412281826E4D",
+    "join_eui": "1A8DED87FC19DFC6",
+    "dev_addr": "260B6802"
+  },
+  "correlation_ids": [
+    "as:up:01FFRJ318BCF0QW4BNNP7YBSBD",
+    "gs:conn:01FFR98J12Z4F45RCEHK71MA26",
+    "gs:up:host:01FFR98J1B5ST0TSZE14SDPT18",
+    "gs:uplink:01FFRJ311NZ7M7SHD43K1KKF5C",
+    "ns:uplink:01FFRJ311PT77YASQ4V8CWCD1P",
+    "rpc:/ttn.lorawan.v3.GsNs/HandleUplink:01FFRJ311P231WB05MATBERPQ0",
+    "rpc:/ttn.lorawan.v3.NsAs/HandleUplink:01FFRJ318ARSX6GVZ888ZXB520"
+  ],
+  "received_at": "2021-09-17T00:21:50.987917393Z",
+  "uplink_message": {
+    "session_key_id": "AXvwp7OkqWGCRrzSdRUMHQ==",
+    "f_port": 2,
+    "f_cnt": 91,
+    "frm_payload": "A2VSxAFxww5Ov2M=",
+    "decoded_payload": {
+      "ALARM_status": "TRUE",
+      "Altitude": 0,
+      "BatV": 3.775,
+      "FW": 163,
+      "HDOP": null,
+      "LON": "ON",
+      "Latitude": 56.971972,
+      "Longitude": 24.232718,
+      "MD": "Move",
+      "Pitch": 0,
+      "Roll": 0
+    },
+    "rx_metadata": [
+      {
+        "gateway_ids": {
+          "gateway_id": "wse7-opendba-lv",
+          "eui": "5532322047000E00"
+        },
+        "time": "2021-09-17T00:21:50.664357Z",
+        "timestamp": 4174454044,
+        "rssi": -51,
+        "channel_rssi": -51,
+        "snr": 10,
+        "location": {
+          "latitude": 56.970405,
+          "longitude": 24.235179,
+          "altitude": 10,
+          "source": "SOURCE_REGISTRY"
+        },
+        "uplink_token": "Ch0KGwoPd3NlNy1vcGVuZGJhLWx2EghVMjIgRwAOABCcusTGDxoMCJ6/j4oGEMm20/ACIODq5oa/8wI=",
+        "channel_index": 4
+      }
+    ],
+    "settings": {
+      "data_rate": {
+        "lora": {
+          "bandwidth": 125000,
+          "spreading_factor": 7
+        }
+      },
+      "data_rate_index": 5,
+      "coding_rate": "4/5",
+      "frequency": "867300000",
+      "timestamp": 4174454044,
+      "time": "2021-09-17T00:21:50.664357Z"
+    },
+    "received_at": "2021-09-17T00:21:50.774373985Z",
+    "consumed_airtime": "0.061696s",
+    "locations": {
+      "frm-payload": {
+        "latitude": 56.971972,
+        "longitude": 24.232718,
+        "source": "SOURCE_GPS"
+      }
+    },
+    "network_ids": {
+      "net_id": "000013",
+      "tenant_id": "ttn",
+      "cluster_id": "ttn-eu1"
+    }
+  }
+}

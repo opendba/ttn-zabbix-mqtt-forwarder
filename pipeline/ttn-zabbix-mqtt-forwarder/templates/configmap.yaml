@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ttn-zabbix-mqtt-forwarder-configmap
+data:
+  DEBUG: "true"
+  LOG_FORMAT: "json"
+  ZBX_HOST: "zabbix-server.zabbix"
+  ZBX_PORT: "10051"
+  MQTT_HOST: "eu1.cloud.thethings.network"
+  MQTT_PORT: "8883"
+  MQTT_TLS: "true"

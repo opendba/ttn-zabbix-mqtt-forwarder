@@ -1,0 +1,6 @@
+.env
+log/
+pipeline/*.tgz
+pipeline/**/secret.yaml
+.idea/
+**/__pycache__

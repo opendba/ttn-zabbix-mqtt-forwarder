@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: cloud.thethings.network
+spec:
+  hosts:
+  - eu1.cloud.thethings.network
+  location: MESH_EXTERNAL
+  ports:
+  - number: 8883
+    name: mqtt
+    protocol: TCP
+  resolution: DNS

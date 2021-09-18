@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ttn-zabbix-mqtt-forwarder-dep
+  labels:
+    app: ttn-zabbix-mqtt-forwarder
+  annotations:
+    proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ttn-zabbix-mqtt-forwarder
+  template:
+    metadata:
+      labels:
+        app: ttn-zabbix-mqtt-forwarder
+    spec:
+      imagePullSecrets:
+      - name: hub-opendba.lv
+
+      containers:
+      - name: ttn-zabbix-mqtt-forwarder
+        image: hub.opendba.lv:443/ttn-zabbix-mqtt-forwarder:latest
+        imagePullPolicy: Always
+        env:
+        - name: DEBUG
+          valueFrom:
+            configMapKeyRef:
+              name: ttn-zabbix-mqtt-forwarder-configmap
+              key: DEBUG
+        - name: LOG_FORMAT
+          valueFrom:
+            configMapKeyRef:
+              name: ttn-zabbix-mqtt-forwarder-configmap
+              key: LOG_FORMAT
+        - name: ZBX_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: ttn-zabbix-mqtt-forwarder-configmap
+              key: ZBX_HOST
+        - name: ZBX_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: ttn-zabbix-mqtt-forwarder-configmap
+              key: ZBX_PORT
+        - name: MQTT_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: ttn-zabbix-mqtt-forwarder-configmap
+              key: MQTT_HOST
+        - name: MQTT_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: ttn-zabbix-mqtt-forwarder-configmap
+              key: MQTT_PORT
+        - name: MQTT_TLS
+          valueFrom:
+            configMapKeyRef:
+              name: ttn-zabbix-mqtt-forwarder-configmap
+              key: MQTT_TLS
+        - name: MQTT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: ttn-zabbix-mqtt-forwarder-secret
+              key: MQTT_USERNAME
+        - name: MQTT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ttn-zabbix-mqtt-forwarder-secret
+              key: MQTT_PASSWORD

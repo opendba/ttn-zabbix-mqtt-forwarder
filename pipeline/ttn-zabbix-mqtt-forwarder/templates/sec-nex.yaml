@@ -1,7 +1,0 @@
-apiVersion: v1
-data:
-  .dockerconfigjson: eyJhdXRocyI6eyJodWIub3BlbmRiYS5sdjo0NDMiOnsidXNlcm5hbWUiOiJkb2NrZXItYWRtaW4iLCJwYXNzd29yZCI6IkJTcHI3UE9MRFl6UlNMdFEiLCJlbWFpbCI6ImluZm9Ab3BlbmRiYS5sdiIsImF1dGgiOiJaRzlqYTJWeUxXRmtiV2x1T2tKVGNISTNVRTlNUkZsNlVsTk1kRkU9In19fQ==
-kind: Secret
-metadata:
-  name: hub-opendba.lv
-type: kubernetes.io/dockerconfigjson

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from logging import getLogger, Logger
-from multiprocessing import Queue
+from multiprocessing import Queue, Event
 from pathlib import Path
 from time import sleep
 from typing import Optional
@@ -18,6 +18,7 @@ __script_path__ = os.path.dirname(__file__)
 __project_path__ = Path(f"{__script_path__}/../").resolve()
 
 from src.log_utils import configure_logging
+from src.signal_watcher import SignalWatcher
 from src.ttn_message_processor import TTNMessageProcessor
 from src.zbx_message_forwarder import ZabbixMessageForwarder
 
@@ -30,12 +31,15 @@ log: Optional[Logger] = None
 
 
 def main():
-    global log, log_format
+    global log, log_format, log_file
+    shutdown_signal = Event()
+    shutdown_signal.clear()
 
     load_dotenv(dotenv_path=__project_path__.joinpath(".env"), verbose=False)
 
     debug_mode = os.environ.get("DEBUG", "").lower() == "true"
     json_log = os.environ.get("LOG_FORMAT", "").lower() == "json"
+    log_persist = os.environ.get("LOG_PERSIST", "").lower() == "true"
     if json_log:
         log_format = (
             "{ "
@@ -47,6 +51,9 @@ def main():
         )
 
     log = getLogger(__script_name__)
+    # if log persistance is not needed, don't log to file
+    if not log_persist:
+        log_file = None
     configure_logging(
         debug=debug_mode, log_name=log_file, log_format=log_format,
     )
@@ -69,7 +76,10 @@ def main():
     message_queue = Queue()
 
     zbx_forwarder = ZabbixMessageForwarder(
-        queue=message_queue, zbx_host=zbx_host, zbx_port=zbx_port
+        queue=message_queue,
+        zbx_host=zbx_host,
+        zbx_port=zbx_port,
+        shutdown_signal=shutdown_signal,
     )
     ttn_processor = TTNMessageProcessor(queue=message_queue)
 
@@ -100,11 +110,12 @@ def main():
     )
     log.info(f"Using zabbix: {zbx_host}:{zbx_port}")
 
-    # Blocking call that processes network traffic, dispatches callbacks and
-    # handles reconnecting.
-    # Other loop*() functions are available that give a threaded interface and a
-    # manual interface.
-    client.loop_forever()
+    _ = SignalWatcher(shutdown_signal=shutdown_signal)
+    client.loop_start()
+    while not shutdown_signal.is_set():
+        sleep(5)
+    client.disconnect()
+    client.loop_stop(force=True)
 
     # all good
     exit_code = 0

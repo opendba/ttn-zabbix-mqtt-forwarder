@@ -4,6 +4,8 @@ metadata:
   name: ttn-zabbix-mqtt-forwarder-dep
   labels:
     app: ttn-zabbix-mqtt-forwarder
+    app.kubernetes.io/name: ttn-zabbix-mqtt-forwarder
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
   annotations:
     proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
 spec:
@@ -21,8 +23,23 @@ spec:
 
       containers:
       - name: ttn-zabbix-mqtt-forwarder
-        image: hub.opendba.lv:443/ttn-zabbix-mqtt-forwarder:latest
+        image: {{ .Values.imageName }}
         imagePullPolicy: Always
+        securityContext:
+          runAsNonRoot: true
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
+            add: []
+          runAsUser: 20000
+        resources:
+          limits:
+            memory: 128M
+            cpu: 100m
+          requests:
+            memory: 128M
+            cpu: 100m
         env:
         - name: DEBUG
           valueFrom:
@@ -34,6 +51,11 @@ spec:
             configMapKeyRef:
               name: ttn-zabbix-mqtt-forwarder-configmap
               key: LOG_FORMAT
+        - name: LOG_PERSIST
+          valueFrom:
+            configMapKeyRef:
+              name: ttn-zabbix-mqtt-forwarder-configmap
+              key: LOG_PERSIST
         - name: ZBX_HOST
           valueFrom:
             configMapKeyRef:

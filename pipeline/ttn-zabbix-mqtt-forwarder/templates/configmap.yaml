@@ -5,6 +5,7 @@ metadata:
 data:
   DEBUG: "true"
   LOG_FORMAT: "json"
+  LOG_PERSIST: "false"
   ZBX_HOST: "zabbix-server.zabbix"
   ZBX_PORT: "10051"
   MQTT_HOST: "eu1.cloud.thethings.network"

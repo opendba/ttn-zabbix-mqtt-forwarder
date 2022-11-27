@@ -14,14 +14,11 @@ COPY Pipfile .
 COPY Pipfile.lock .
 RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy
 
-RUN useradd -m python
+RUN useradd -u 20000 -m python
 USER python
 
 COPY --chown=python . .
 
 ENV PYTHONPATH=/usr/src/app:/usr/src/app/src
 
-#ENTRYPOINT ["/bin/bash", "-c"]
-#CMD [ "sleep 3600" ]
-#CMD [ "pipenv3", "run", "python", "src/ttn-zabbix-mqtt-forwarder.py" ]
 CMD [ "/usr/local/bin/pipenv", "run", "python", "src/ttn-zabbix-mqtt-forwarder.py" ]

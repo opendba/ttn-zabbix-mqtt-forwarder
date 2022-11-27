@@ -2,5 +2,6 @@
 log/
 pipeline/*.tgz
 pipeline/**/secret.yaml
+pipeline/**/secret*.yaml
 .idea/
 **/__pycache__
